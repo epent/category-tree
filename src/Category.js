@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 
 const Category = (props) => {
-  const categoryValue = props.data.value;
+  const [category, setCategory] = useState({
+    value: props.data.value,
+    id: props.data.id,
+    children: [],
+  });
+
   const hasChildren = props.data.children;
   let childrenData;
 
@@ -17,7 +22,7 @@ const Category = (props) => {
 
   return (
     <div>
-      <p>{categoryValue}</p>
+      <p>{category.value}</p>
       <ul>{childrenData}</ul>
     </div>
   );
