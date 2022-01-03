@@ -13,7 +13,7 @@ const Category = (props) => {
     children: [],
   });
 
-  const hasChildren = category.children;
+  const hasChildren = category.children.length > 0;
   let childrenData;
 
   if (hasChildren) {
@@ -49,8 +49,13 @@ const Category = (props) => {
 
   return (
     <div>
+      <button onClick={() => props.deleteCategory(category.id)}>Delete</button>
       <p>{category.value}</p>
-      <input type="text" value={subCategory.value} onChange={updateValueHandler} />
+      <input
+        type="text"
+        value={subCategory.value}
+        onChange={updateValueHandler}
+      />
       <button onClick={addSubCategoryHandler}>+ subcategory</button>
       <ul>{childrenData}</ul>
     </div>

@@ -29,10 +29,18 @@ function App() {
     });
   };
 
+  const deleteCategoryHandler = (categoryId) => {
+    const updatedData = data.filter((category) => {
+      return category.id !== categoryId;
+    });
+
+    setData([...updatedData]);
+  };
+
   const rootCategories = data.map((rootCategory) => {
     return (
       <li key={rootCategory.id}>
-        <Category data={rootCategory} />
+        <Category data={rootCategory} deleteCategory={deleteCategoryHandler} />
       </li>
     );
   });
