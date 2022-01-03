@@ -8,19 +8,17 @@ const Category = (props) => {
   if (hasChildren) {
     childrenData = props.data.children.map((child) => {
       return (
-        <ul>
+        <li key={child.id}>
           <Category data={child} />
-        </ul>
+        </li>
       );
     });
   }
 
   return (
     <div>
-      <li>
-        <p>{categoryValue}</p>
-        {childrenData}
-      </li>
+      <p>{categoryValue}</p>
+      <ul>{childrenData}</ul>
     </div>
   );
 };
