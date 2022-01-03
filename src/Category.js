@@ -13,11 +13,13 @@ const Category = (props) => {
     children: [],
   });
 
+  const [changeName, setChangeName] = useState(false);
+
   const hasChildren = category.children.length > 0;
-  let childrenData;
+  let subCategories;
 
   if (hasChildren) {
-    childrenData = category.children.map((child) => {
+    subCategories = category.children.map((child) => {
       return (
         <li key={child.id}>
           <Category data={child} deleteChild={deleteChild} />
@@ -27,6 +29,13 @@ const Category = (props) => {
   }
 
   const updateValueHandler = (event) => {
+    setCategory({
+      ...category,
+      value: event.target.value,
+    });
+  };
+
+  const updateSubValueHandler = (event) => {
     setSubCategory({
       value: event.target.value,
       id: event.target.value,
@@ -67,14 +76,26 @@ const Category = (props) => {
   return (
     <div>
       <button onClick={deleteHandler}>Delete</button>
-      <p>{category.value}</p>
+      {changeName ? (
+        <form onSubmit={() => setChangeName((prevState) => !prevState)}>
+          <input
+            type="text"
+            value={category.value}
+            onChange={updateValueHandler}
+          />
+        </form>
+      ) : (
+        <p onClick={() => setChangeName((prevState) => !prevState)}>
+          {category.value}
+        </p>
+      )}
       <input
         type="text"
         value={subCategory.value}
-        onChange={updateValueHandler}
+        onChange={updateSubValueHandler}
       />
       <button onClick={addSubCategoryHandler}>+ subcategory</button>
-      <ul>{childrenData}</ul>
+      <ul>{subCategories}</ul>
     </div>
   );
 };
