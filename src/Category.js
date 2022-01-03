@@ -68,14 +68,11 @@ const Category = (props) => {
     });
   }
 
-  let deleteHandler;
-  props.deleteChild
-    ? (deleteHandler = () => props.deleteChild(category.id))
-    : (deleteHandler = () => props.deleteSelf(category.id));
-
   return (
     <div>
-      <button onClick={deleteHandler}>Delete</button>
+      {!props.isRoot && (
+        <button onClick={() => props.deleteChild(category.id)}>Delete</button>
+      )}
       {changeName ? (
         <form onSubmit={() => setChangeName((prevState) => !prevState)}>
           <input

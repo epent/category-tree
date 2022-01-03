@@ -3,53 +3,12 @@ import React, { useState } from "react";
 import Category from "./Category";
 
 function App() {
-  const [data, setData] = useState([]);
-
-  const [category, setCategory] = useState({
-    value: "",
-    id: "",
-    children: [],
-  });
-
-  const updateValueHandler = (event) => {
-    setCategory({
-      value: event.target.value,
-      id: event.target.value,
-      children: [],
-    });
-  };
-
-  const addCategoryHandler = () => {
-    setData([...data, { ...category }]);
-
-    setCategory({
-      value: "",
-      id: "",
-      children: [],
-    });
-  };
-
-  const deleteCategoryHandler = (categoryId) => {
-    const updatedData = data.filter((category) => {
-      return category.id !== categoryId;
-    });
-
-    setData([...updatedData]);
-  };
-
-  const rootCategories = data.map((rootCategory) => {
-    return (
-      <li key={rootCategory.id}>
-        <Category data={rootCategory} deleteSelf={deleteCategoryHandler} />
-      </li>
-    );
-  });
-
   return (
     <div className="App">
-      <input type="text" value={category.value} onChange={updateValueHandler} />
-      <button onClick={addCategoryHandler}>Add new category</button>
-      <ul>{rootCategories}</ul>
+      <Category
+        data={{ value: "Categories", id: "Categories", children: [] }}
+        isRoot
+      />
     </div>
   );
 }
