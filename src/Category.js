@@ -7,11 +7,17 @@ const Category = (props) => {
     children: [],
   });
 
-  const hasChildren = props.data.children;
+  const [subCategory, setSubCategory] = useState({
+    value: "",
+    id: "",
+    children: [],
+  });
+
+  const hasChildren = category.children;
   let childrenData;
 
   if (hasChildren) {
-    childrenData = props.data.children.map((child) => {
+    childrenData = category.children.map((child) => {
       return (
         <li key={child.id}>
           <Category data={child} />
@@ -20,9 +26,32 @@ const Category = (props) => {
     });
   }
 
+  const updateValueHandler = (event) => {
+    setSubCategory({
+      value: event.target.value,
+      id: event.target.value,
+      children: [],
+    });
+  };
+
+  const addSubCategoryHandler = () => {
+    setCategory({
+      ...category,
+      children: [...category.children, { ...subCategory }],
+    });
+
+    setSubCategory({
+      value: "",
+      id: "",
+      children: [],
+    });
+  };
+
   return (
     <div>
       <p>{category.value}</p>
+      <input type="text" value={subCategory.value} onChange={updateValueHandler} />
+      <button onClick={addSubCategoryHandler}>+ subcategory</button>
       <ul>{childrenData}</ul>
     </div>
   );
