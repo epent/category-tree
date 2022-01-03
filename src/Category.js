@@ -17,15 +17,19 @@ const Category = (props) => {
 
   const [showSubcategoryInput, setShowSubcategoryInput] = useState(false);
 
+  const [showChildren, setShowChildren] = useState(false);
+
   const hasChildren = category.children.length > 0;
   let subCategories;
 
   if (hasChildren) {
     subCategories = category.children.map((child) => {
       return (
-        <li key={child.id}>
-          <Category data={child} deleteChild={deleteChild} />
-        </li>
+        showChildren && (
+          <li key={child.id}>
+            <Category data={child} deleteChild={deleteChild} />
+          </li>
+        )
       );
     });
   }
@@ -70,6 +74,14 @@ const Category = (props) => {
     });
   }
 
+  const showSubCategories = () => {
+    setShowChildren((prevState) => !prevState);
+  };
+
+  const showSubCategoriesButton = (
+    <button onClick={showSubCategories}>{showChildren ? "-" : "+"}</button>
+  );
+
   return (
     <div>
       {!props.isRoot && (
@@ -85,9 +97,12 @@ const Category = (props) => {
           }}
         />
       ) : (
-        <p onClick={() => setChangeName((prevState) => !prevState)}>
-          {category.value}
-        </p>
+        <div>
+          {hasChildren && showSubCategoriesButton}
+          <span onClick={() => setChangeName((prevState) => !prevState)}>
+            {category.value}
+          </span>
+        </div>
       )}
       {showSubcategoryInput && (
         <input

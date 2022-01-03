@@ -5,10 +5,7 @@ import Category from "./Category";
 function App() {
   return (
     <div className="App">
-      <Category
-        data={{ value: "Categories", id: "Categories", children: [] }}
-        isRoot
-      />
+      <Category data={{ value: "Categories", id: "Categories" }} isRoot />
     </div>
   );
 }
