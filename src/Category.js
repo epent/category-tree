@@ -15,6 +15,8 @@ const Category = (props) => {
 
   const [changeName, setChangeName] = useState(false);
 
+  const [showSubcategoryInput, setShowSubcategoryInput] = useState(false);
+
   const hasChildren = category.children.length > 0;
   let subCategories;
 
@@ -87,15 +89,21 @@ const Category = (props) => {
           {category.value}
         </p>
       )}
-      <input
-        type="text"
-        value={subCategory.value}
-        onChange={updateSubValueHandler}
-        onKeyDown={(e) => {
-          e.key === "Enter" && addSubCategoryHandler();
-        }}
-      />
-      <button onClick={addSubCategoryHandler}>+ subcategory</button>
+      {showSubcategoryInput && (
+        <input
+          type="text"
+          value={subCategory.value}
+          onChange={updateSubValueHandler}
+          onKeyDown={(e) => {
+            e.key === "Enter" && addSubCategoryHandler();
+          }}
+        />
+      )}
+      <button
+        onClick={() => setShowSubcategoryInput((prevState) => !prevState)}
+      >
+        + subcategory
+      </button>
       <ul>{subCategories}</ul>
     </div>
   );
