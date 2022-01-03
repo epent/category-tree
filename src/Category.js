@@ -60,6 +60,7 @@ const Category = (props) => {
       id: "",
       children: [],
     });
+    setShowChildren(true);
   };
 
   function deleteChild(childId) {
