@@ -74,13 +74,14 @@ const Category = (props) => {
         <button onClick={() => props.deleteChild(category.id)}>Delete</button>
       )}
       {changeName ? (
-        <form onSubmit={() => setChangeName((prevState) => !prevState)}>
-          <input
-            type="text"
-            value={category.value}
-            onChange={updateValueHandler}
-          />
-        </form>
+        <input
+          type="text"
+          value={category.value}
+          onChange={updateValueHandler}
+          onKeyDown={(e) => {
+            e.key === "Enter" && setChangeName((prevState) => !prevState);
+          }}
+        />
       ) : (
         <p onClick={() => setChangeName((prevState) => !prevState)}>
           {category.value}
@@ -90,6 +91,9 @@ const Category = (props) => {
         type="text"
         value={subCategory.value}
         onChange={updateSubValueHandler}
+        onKeyDown={(e) => {
+          e.key === "Enter" && addSubCategoryHandler();
+        }}
       />
       <button onClick={addSubCategoryHandler}>+ subcategory</button>
       <ul>{subCategories}</ul>
