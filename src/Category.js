@@ -20,7 +20,7 @@ const Category = (props) => {
     childrenData = category.children.map((child) => {
       return (
         <li key={child.id}>
-          <Category data={child} />
+          <Category data={child} deleteChild={deleteChild} />
         </li>
       );
     });
@@ -47,9 +47,21 @@ const Category = (props) => {
     });
   };
 
+  function deleteChild(childId) {
+    const children = [...category.children];
+    const updatedChildren = children.filter((child) => {
+      return child.id !== childId;
+    });
+
+    setCategory({
+      ...category,
+      children: [...updatedChildren],
+    });
+  }
+
   return (
     <div>
-      <button onClick={() => props.deleteCategory(category.id)}>Delete</button>
+      <button onClick={() => props.deleteChild(category.id)}>Delete</button>
       <p>{category.value}</p>
       <input
         type="text"
