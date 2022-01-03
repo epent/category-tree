@@ -59,9 +59,14 @@ const Category = (props) => {
     });
   }
 
+  let deleteHandler;
+  props.deleteChild
+    ? (deleteHandler = () => props.deleteChild(category.id))
+    : (deleteHandler = () => props.deleteSelf(category.id));
+
   return (
     <div>
-      <button onClick={() => props.deleteChild(category.id)}>Delete</button>
+      <button onClick={deleteHandler}>Delete</button>
       <p>{category.value}</p>
       <input
         type="text"

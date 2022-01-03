@@ -40,7 +40,7 @@ function App() {
   const rootCategories = data.map((rootCategory) => {
     return (
       <li key={rootCategory.id}>
-        <Category data={rootCategory} deleteCategory={deleteCategoryHandler} />
+        <Category data={rootCategory} deleteSelf={deleteCategoryHandler} />
       </li>
     );
   });
