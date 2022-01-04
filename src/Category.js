@@ -177,7 +177,7 @@ const Category = (props) => {
       {!props.isRoot && (
         <button onClick={() => props.deleteChild(category.id)}>Delete</button>
       )}
-      <ul>{subCategories}</ul>
+      <ul style={{listStyle: "none"}}>{subCategories}</ul>
     </div>
   );
 };
