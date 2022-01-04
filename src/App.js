@@ -5,7 +5,7 @@ import Category from "./Category";
 function App() {
   return (
     <div className="App">
-      <Category data={{ value: "Categories", id: "level_0" }} isRoot />
+      <Category data={{ name: "Categories", id: "level_0" }} isRoot />
     </div>
   );
 }

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 const Category = (props) => {
   const [category, setCategory] = useState({
-    value: props.data.value,
+    name: props.data.name,
     id: props.data.id,
     children: [],
   });
 
   const [subCategory, setSubCategory] = useState({
-    value: "",
+    name: "",
     id: "",
     children: [],
   });
@@ -32,7 +32,7 @@ const Category = (props) => {
             <Category
               data={child}
               deleteChild={deleteChild}
-              changeChildName={changeChildName}
+              updateChildName={updateChildName}
             />
           </li>
         )
@@ -40,14 +40,44 @@ const Category = (props) => {
     });
   }
 
-  const updateValueHandler = (event) => {
-    setCategory({
-      ...category,
-      value: event.target.value,
+  const createSubCategoryName = (event) => {
+    const parentLevel = category.id.split("_")[1];
+    const myLevel = Number(parentLevel) + 1;
+
+    setSubCategory({
+      ...subCategory,
+      name: event.target.value,
+      id: `level_${myLevel}_${count}`,
     });
   };
 
-  function changeChildName(childCategory) {
+  const createSubCategory = () => {
+    setCategory({
+      ...category,
+      children: [...category.children, { ...subCategory }],
+    });
+
+    setSubCategory({
+      name: "",
+      id: "",
+      children: [],
+    });
+
+    setShowChildren(true);
+
+    setCount((prevState) => {
+      return prevState + 1;
+    });
+  };
+
+  const updateCategoryName = (event) => {
+    setCategory({
+      ...category,
+      name: event.target.value,
+    });
+  };
+
+  function updateChildName(childCategory) {
     const childrenList = [...category.children];
     const childIndex = childrenList.findIndex((child) => {
       return child.id === childCategory.id;
@@ -60,39 +90,9 @@ const Category = (props) => {
     });
   }
 
-  const updateSubValueHandler = (event) => {
-    const parentLevel = category.id.split("_")[1];
-    const myLevel = Number(parentLevel) + 1;
-
-    setSubCategory({
-      ...subCategory,
-      value: event.target.value,
-      id: `level_${myLevel}_${count}`,
-    });
-  };
-
-  const addSubCategoryHandler = () => {
-    setCategory({
-      ...category,
-      children: [...category.children, { ...subCategory }],
-    });
-
-    setSubCategory({
-      value: "",
-      id: "",
-      children: [],
-    });
-
-    setShowChildren(true);
-
-    setCount((prevState) => {
-      return prevState + 1;
-    });
-  };
-
   function deleteChild(childId) {
-    const children = [...category.children];
-    const updatedChildren = children.filter((child) => {
+    const childrenList = [...category.children];
+    const updatedChildren = childrenList.filter((child) => {
       return child.id !== childId;
     });
 
@@ -114,27 +114,27 @@ const Category = (props) => {
       {changeName ? (
         <input
           type="text"
-          value={category.value}
-          onChange={updateValueHandler}
+          value={category.name}
+          onChange={updateCategoryName}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               setChangeName((prevState) => !prevState);
-              props.changeChildName(category);
+              props.updateChildName(category);
             }
           }}
         />
       ) : (
         <span onClick={() => setChangeName((prevState) => !prevState)}>
-          {category.value}
+          {category.name}
         </span>
       )}
       {showSubcategoryInput && (
         <input
           type="text"
-          value={subCategory.value}
-          onChange={updateSubValueHandler}
+          value={subCategory.name}
+          onChange={createSubCategoryName}
           onKeyDown={(e) => {
-            e.key === "Enter" && addSubCategoryHandler();
+            e.key === "Enter" && createSubCategory();
           }}
         />
       )}
