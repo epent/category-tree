@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 
 const Category = (props) => {
+  // state related to category (myself)
   const [category, setCategory] = useState({
     name: props.data.name,
     id: props.data.id,
     children: [],
   });
 
+  const [changeCategoryName, setChangeCategoryName] = useState(false);
+
+  const [showChildren, setShowChildren] = useState(false);
+
+  const [showInputField, setShowInputField] = useState(false);
+
+  //state related to subcategory (my child)
   const [subCategory, setSubCategory] = useState({
     name: "",
     id: "",
@@ -14,12 +22,6 @@ const Category = (props) => {
   });
 
   const [count, setCount] = useState(1);
-
-  const [changeName, setChangeName] = useState(false);
-
-  const [showSubcategoryInput, setShowSubcategoryInput] = useState(false);
-
-  const [showChildren, setShowChildren] = useState(false);
 
   const hasChildren = category.children.length > 0;
   let subCategories;
@@ -40,6 +42,15 @@ const Category = (props) => {
     });
   }
 
+  //actions related to category (myself)
+  const updateCategoryName = (event) => {
+    setCategory({
+      ...category,
+      name: event.target.value,
+    });
+  };
+
+  //actions related to subcategory (my child)
   const createSubCategoryName = (event) => {
     const parentLevel = category.id.split("_")[1];
     const myLevel = Number(parentLevel) + 1;
@@ -67,13 +78,6 @@ const Category = (props) => {
 
     setCount((prevState) => {
       return prevState + 1;
-    });
-  };
-
-  const updateCategoryName = (event) => {
-    setCategory({
-      ...category,
-      name: event.target.value,
     });
   };
 
@@ -111,24 +115,24 @@ const Category = (props) => {
   return (
     <div>
       {hasChildren && subCategoriesButton}
-      {changeName ? (
+      {changeCategoryName ? (
         <input
           type="text"
           value={category.name}
           onChange={updateCategoryName}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              setChangeName((prevState) => !prevState);
+              setChangeCategoryName((prevState) => !prevState);
               props.updateChildName(category);
             }
           }}
         />
       ) : (
-        <span onClick={() => setChangeName((prevState) => !prevState)}>
+        <span onClick={() => setChangeCategoryName((prevState) => !prevState)}>
           {category.name}
         </span>
       )}
-      {showSubcategoryInput && (
+      {showInputField && (
         <input
           type="text"
           value={subCategory.name}
@@ -138,9 +142,7 @@ const Category = (props) => {
           }}
         />
       )}
-      <button
-        onClick={() => setShowSubcategoryInput((prevState) => !prevState)}
-      >
+      <button onClick={() => setShowInputField((prevState) => !prevState)}>
         + subcategory
       </button>
       {!props.isRoot && (
