@@ -29,7 +29,11 @@ const Category = (props) => {
       return (
         showChildren && (
           <li key={child.id}>
-            <Category data={child} deleteChild={deleteChild} />
+            <Category
+              data={child}
+              deleteChild={deleteChild}
+              changeChildName={changeChildName}
+            />
           </li>
         )
       );
@@ -42,6 +46,19 @@ const Category = (props) => {
       value: event.target.value,
     });
   };
+
+  function changeChildName(childCategory) {
+    const childrenList = [...category.children];
+    const childIndex = childrenList.findIndex((child) => {
+      return child.id === childCategory.id;
+    });
+    childrenList[childIndex] = childCategory;
+
+    setCategory({
+      ...category,
+      children: [...childrenList],
+    });
+  }
 
   const updateSubValueHandler = (event) => {
     const parentLevel = category.id.split("_")[1];
@@ -100,7 +117,10 @@ const Category = (props) => {
           value={category.value}
           onChange={updateValueHandler}
           onKeyDown={(e) => {
-            e.key === "Enter" && setChangeName((prevState) => !prevState);
+            if (e.key === "Enter") {
+              setChangeName((prevState) => !prevState);
+              props.changeChildName(category);
+            }
           }}
         />
       ) : (
