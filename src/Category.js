@@ -115,7 +115,7 @@ const Category = (props) => {
   );
 
   let categoryName;
-  changeCategoryName
+  changeCategoryName && !props.isRoot
     ? (categoryName = (
         <input
           type="text"
