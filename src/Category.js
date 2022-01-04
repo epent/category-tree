@@ -5,7 +5,7 @@ const Category = (props) => {
   const [category, setCategory] = useState({
     name: props.data.name,
     id: props.data.id,
-    children: [],
+    children: props.data.children,
   });
 
   const [changeCategoryName, setChangeCategoryName] = useState(false);
@@ -46,11 +46,60 @@ const Category = (props) => {
               data={child}
               deleteChild={deleteChild}
               updateChildName={updateChildName}
+              collectData={props.collectData}
+              passData={passData}
             />
           </li>
         </div>
       );
     });
+  }
+
+  //collect data for the final object
+  const [meAndChildren, setMeAndChildren] = useState({
+    name: category.name,
+    id: category.id,
+    children: [],
+  });
+
+  function passData(childData) {
+    const updatedChildren = [...meAndChildren.children];
+
+    const alreadyExists = updatedChildren.find((child) => {
+      return child.id === childData.id;
+    });
+
+    if (!alreadyExists) {
+      updatedChildren.push(childData);
+      updatedChildren.sort((a, b) => {
+        const lastdigitA = a.id.split("").pop();
+        const lastdigitB = b.id.split("").pop();
+        return lastdigitA - lastdigitB;
+      });
+
+      setMeAndChildren({
+        ...meAndChildren,
+        children: updatedChildren,
+      });
+    }
+  }
+
+  if (props.collectData) {
+    if (!hasChildren) {
+      props.passData(category);
+    }
+
+    if (
+      hasChildren &&
+      meAndChildren.children.length === category.children.length
+    ) {
+      if (props.isRoot) {
+        console.log("uploadTree");
+        props.uploadTree(meAndChildren);
+      } else {
+        props.passData(meAndChildren);
+      }
+    }
   }
 
   //actions related to category (myself)
@@ -177,7 +226,7 @@ const Category = (props) => {
       {!props.isRoot && (
         <button onClick={() => props.deleteChild(category.id)}>Delete</button>
       )}
-      <ul style={{listStyle: "none"}}>{subCategories}</ul>
+      <ul style={{ listStyle: "none" }}>{subCategories}</ul>
     </div>
   );
 };
