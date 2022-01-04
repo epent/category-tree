@@ -85,19 +85,15 @@ const Category = (props) => {
     });
   }
 
-  const showSubCategories = () => {
-    setShowChildren((prevState) => !prevState);
-  };
-
-  const showSubCategoriesButton = (
-    <button onClick={showSubCategories}>{showChildren ? "-" : "+"}</button>
+  const subCategoriesButton = (
+    <button onClick={() => setShowChildren((prevState) => !prevState)}>
+      {showChildren ? "-" : "+"}
+    </button>
   );
 
   return (
     <div>
-      {!props.isRoot && (
-        <button onClick={() => props.deleteChild(category.id)}>Delete</button>
-      )}
+      {hasChildren && subCategoriesButton}
       {changeName ? (
         <input
           type="text"
@@ -108,12 +104,9 @@ const Category = (props) => {
           }}
         />
       ) : (
-        <div>
-          {hasChildren && showSubCategoriesButton}
-          <span onClick={() => setChangeName((prevState) => !prevState)}>
-            {category.value}
-          </span>
-        </div>
+        <span onClick={() => setChangeName((prevState) => !prevState)}>
+          {category.value}
+        </span>
       )}
       {showSubcategoryInput && (
         <input
@@ -130,6 +123,9 @@ const Category = (props) => {
       >
         + subcategory
       </button>
+      {!props.isRoot && (
+        <button onClick={() => props.deleteChild(category.id)}>Delete</button>
+      )}
       <ul>{subCategories}</ul>
     </div>
   );
