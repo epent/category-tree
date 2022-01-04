@@ -106,16 +106,16 @@ const Category = (props) => {
     });
   }
 
-  const subCategoriesButton = (
+  // constants used in return statement
+  const showChildrenButton = (
     <button onClick={() => setShowChildren((prevState) => !prevState)}>
       {showChildren ? "-" : "+"}
     </button>
   );
 
-  return (
-    <div>
-      {hasChildren && subCategoriesButton}
-      {changeCategoryName ? (
+  let categoryName;
+  changeCategoryName
+    ? (categoryName = (
         <input
           type="text"
           value={category.name}
@@ -127,24 +127,36 @@ const Category = (props) => {
             }
           }}
         />
-      ) : (
+      ))
+    : (categoryName = (
         <span onClick={() => setChangeCategoryName((prevState) => !prevState)}>
           {category.name}
         </span>
-      )}
-      {showInputField && (
-        <input
-          type="text"
-          value={subCategory.name}
-          onChange={createSubCategoryName}
-          onKeyDown={(e) => {
-            e.key === "Enter" && createSubCategory();
-          }}
-        />
-      )}
-      <button onClick={() => setShowInputField((prevState) => !prevState)}>
-        + subcategory
-      </button>
+      ));
+
+  const inputField = (
+    <input
+      type="text"
+      value={subCategory.name}
+      onChange={createSubCategoryName}
+      onKeyDown={(e) => {
+        e.key === "Enter" && createSubCategory();
+      }}
+    />
+  );
+
+  const inputFieldButton = (
+    <button onClick={() => setShowInputField((prevState) => !prevState)}>
+      + subcategory
+    </button>
+  );
+
+  return (
+    <div>
+      {hasChildren && showChildrenButton}
+      {categoryName}
+      {showInputField && inputField}
+      {inputFieldButton}
       {!props.isRoot && (
         <button onClick={() => props.deleteChild(category.id)}>Delete</button>
       )}
