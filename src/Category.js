@@ -23,21 +23,22 @@ const Category = (props) => {
 
   const [count, setCount] = useState(1);
 
+  // render subcategories (my children) recursively
   const hasChildren = category.children.length > 0;
   let subCategories;
 
   if (hasChildren) {
     subCategories = category.children.map((child) => {
       return (
-        showChildren && (
-          <li key={child.id}>
+        <div key={child.id} style={!showChildren ? { display: "none" } : null}>
+          <li>
             <Category
               data={child}
               deleteChild={deleteChild}
               updateChildName={updateChildName}
             />
           </li>
-        )
+        </div>
       );
     });
   }
