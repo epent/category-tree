@@ -13,6 +13,8 @@ const Category = (props) => {
     children: [],
   });
 
+  const [count, setCount] = useState(1);
+
   const [changeName, setChangeName] = useState(false);
 
   const [showSubcategoryInput, setShowSubcategoryInput] = useState(false);
@@ -42,10 +44,13 @@ const Category = (props) => {
   };
 
   const updateSubValueHandler = (event) => {
+    const parentLevel = category.id.split("_")[1];
+    const myLevel = Number(parentLevel) + 1;
+
     setSubCategory({
+      ...subCategory,
       value: event.target.value,
-      id: event.target.value,
-      children: [],
+      id: `level_${myLevel}_${count}`,
     });
   };
 
@@ -60,7 +65,12 @@ const Category = (props) => {
       id: "",
       children: [],
     });
+
     setShowChildren(true);
+
+    setCount((prevState) => {
+      return prevState + 1;
+    });
   };
 
   function deleteChild(childId) {
