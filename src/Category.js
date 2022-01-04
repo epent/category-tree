@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const Category = (props) => {
   // state related to category (myself)
@@ -13,6 +13,16 @@ const Category = (props) => {
   const [showChildren, setShowChildren] = useState(false);
 
   const [showInputField, setShowInputField] = useState(false);
+
+  // focus input on showing input field
+  const inputElement = useRef();
+  const [focusInput, setFocusInput] = useState(false);
+
+  useEffect(() => {
+    if (focusInput) {
+      inputElement.current.focus();
+    }
+  }, [focusInput]);
 
   //state related to subcategory (my child)
   const [subCategory, setSubCategory] = useState({
@@ -137,6 +147,7 @@ const Category = (props) => {
 
   const inputField = (
     <input
+      ref={inputElement}
       type="text"
       value={subCategory.name}
       onChange={createSubCategoryName}
@@ -147,7 +158,12 @@ const Category = (props) => {
   );
 
   const inputFieldButton = (
-    <button onClick={() => setShowInputField((prevState) => !prevState)}>
+    <button
+      onClick={() => {
+        setShowInputField((prevState) => !prevState);
+        setFocusInput((prevState) => !prevState);
+      }}
+    >
       + subcategory
     </button>
   );
