@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Category from "./Category";
 
-function MyTrees() {
+function MyTreesPage() {
   const [categoryTrees, setCategoryTrees] = useState([]);
 
   useEffect(() => {
@@ -42,4 +42,4 @@ function MyTrees() {
   return <div>{trees}</div>;
 }
 
-export default MyTrees;
+export default MyTreesPage;

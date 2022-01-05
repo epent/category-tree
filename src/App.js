@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import MainComponent from "./MainComponent";
-import MyTrees from "./MyTrees";
+import MainPage from "./MainPage";
+import MyTreesPage from "./MyTreesPage";
 
 function App() {
   const routes = (
     <Routes>
-      <Route path="/mytrees" element={<MyTrees />} />
-      <Route path="/" element={<MainComponent />} />
+      <Route path="/mytrees" element={<MyTreesPage />} />
+      <Route path="/" element={<MainPage />} />
     </Routes>
   );
 

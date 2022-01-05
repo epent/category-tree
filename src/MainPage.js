@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Category from "./Category";
 
-function MainComponent() {
+function MainPage() {
   const [collectData, setCollectData] = useState(false);
   const [totalData, setTotalData] = useState(null);
   const [deleteChildren, setDeleteChildren] = useState(false);
@@ -45,4 +45,4 @@ function MainComponent() {
   );
 }
 
-export default MainComponent;
+export default MainPage;
