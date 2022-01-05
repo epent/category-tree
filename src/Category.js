@@ -14,6 +14,15 @@ const Category = (props) => {
 
   const [showInputField, setShowInputField] = useState(false);
 
+  //update what we render if download the tree from Firebase
+  useEffect(() => {
+    setCategory({
+      name: props.data.name,
+      id: props.data.id,
+      children: props.data.children,
+    });
+  }, [props.data]);
+
   // focus input on showing input field
   const inputElement = useRef();
   const [focusInput, setFocusInput] = useState(false);
@@ -34,8 +43,11 @@ const Category = (props) => {
   const [count, setCount] = useState(1);
 
   // render subcategories (my children) recursively
-  const hasChildren = category.children.length > 0;
   let subCategories;
+  let hasChildren;
+  if (category.children) {
+    hasChildren = category.children.length > 0;
+  }
 
   if (hasChildren) {
     subCategories = category.children.map((child) => {
