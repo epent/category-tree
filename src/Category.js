@@ -55,7 +55,7 @@ const Category = (props) => {
     });
   }
 
-  //collect data for the final object
+  //collect data for the total object to upload
   const [meAndChildren, setMeAndChildren] = useState({
     name: category.name,
     id: category.id,
@@ -94,7 +94,6 @@ const Category = (props) => {
       meAndChildren.children.length === category.children.length
     ) {
       if (props.isRoot) {
-        console.log("uploadTree");
         props.uploadTree(meAndChildren);
       } else {
         props.passData(meAndChildren);
