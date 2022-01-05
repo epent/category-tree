@@ -14,15 +14,6 @@ const Category = (props) => {
 
   const [showInputField, setShowInputField] = useState(false);
 
-  //update what we render if download the tree from Firebase
-  useEffect(() => {
-    setCategory({
-      name: props.data.name,
-      id: props.data.id,
-      children: props.data.children,
-    });
-  }, [props.data]);
-
   // focus input on showing input field
   const inputElement = useRef();
   const [focusInput, setFocusInput] = useState(false);
