@@ -101,6 +101,13 @@ const Category = (props) => {
     }
   }
 
+  if (props.isRoot && props.deleteChildren && hasChildren) {
+    setCategory({
+      ...category,
+      children: [],
+    });
+  }
+
   //actions related to category (myself)
   const updateCategoryName = (event) => {
     setCategory({

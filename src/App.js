@@ -4,26 +4,30 @@ import Category from "./Category";
 
 function App() {
   const [collectData, setCollectData] = useState(false);
-  const [totalData, setTotalData] = useState({});
+  const [totalData, setTotalData] = useState(null);
+  const [deleteChildren, setDeleteChildren] = useState(false);
 
   useEffect(() => {
-    fetch(
-      "https://category-tree-7bd78-default-rtdb.firebaseio.com/categories.json",
-      {
-        method: "POST",
-        body: JSON.stringify(totalData),
-      }
-    )
-      .then(() => {
-        console.log("posted");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (totalData) {
+      fetch(
+        "https://category-tree-7bd78-default-rtdb.firebaseio.com/categories.json",
+        {
+          method: "POST",
+          body: JSON.stringify(totalData),
+        }
+      )
+        .then(() => {
+          console.log("posted");
+          setCollectData(false);
+          setDeleteChildren(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [totalData]);
 
   const uploadTree = (data) => {
-    setCollectData(false);
     setTotalData(data);
   };
 
@@ -34,8 +38,9 @@ function App() {
         isRoot
         collectData={collectData}
         uploadTree={uploadTree}
+        deleteChildren={deleteChildren}
       />
-      <button onClick={() => setCollectData(true)}>Save category tree</button>
+      <button onClick={() => setCollectData(true)}>Upload tree</button>
     </div>
   );
 }
